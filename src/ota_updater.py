@@ -2,12 +2,17 @@
 Firebase Over the Air Updater Module:
 -------------------------------------
 *used to update microcontroller code over the air from firebase as backend
-*initialize an instance of class
+*initialize an instance of class with 
+-api_key
+-auth_email
+-auth_pass
+-database_url
+-storage_url
 *class has one main function:
 -download_latest_version:
  get all missing updates and install them on micrcontroller
  
-$ Version: 1.2
+$ Version: 1.4
 @ Author: Yehia Ehab
 '''
 
@@ -15,7 +20,6 @@ $ Version: 1.2
 # Importing Required Modules
 import uos as os
 import urequests as requests
-from config import Credentials
 from gc import collect as gc_collect
 from json import dumps as json_dumps
 from machine import reset as machine_reset
@@ -23,7 +27,12 @@ from machine import reset as machine_reset
 # Firebase Updater Class
 class FirebaseUpdater:
     # Initialize some variables
-    def __init__(self):
+    def __init__(self, api_key, auth_email, auth_pass, database_url, storage_url):
+        self.key = api_key
+        self.email = auth_email
+        self.password = auth_pass
+        self.database = database_url
+        self.storage = storage_url
         self.error = False
         self.downloaded = False
         self.chunks = False
@@ -56,8 +65,8 @@ class FirebaseUpdater:
     def _auth_login(self) -> bool:
         try:
             # Firebase URL and login credentials
-            url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + Credentials.API_KEY
-            data = json_dumps({"email": Credentials.AUTH_EMAIL, "password": Credentials.AUTH_PASSWORD, "returnSecureToken": True })
+            url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + self.key
+            data = json_dumps({"email": self.email, "password": self.password, "returnSecureToken": True })
             headers = {'Content-Type': 'application/json'}
             # Get Response
             response = requests.post(url, data=data, headers=headers)
@@ -78,7 +87,7 @@ class FirebaseUpdater:
     def _get_next_version(self,version_number:str) -> dict:
         try:
             # URL of request
-            url = f'{Credentials.DATABASE_URL}/.json?auth={self.token}'
+            url = f'{self.database}/.json?auth={self.token}'
             # Get Response
             response = requests.get(url)
             if response.status_code == 200:
@@ -111,7 +120,7 @@ class FirebaseUpdater:
                 if firmware_path == '':
                     firmware_path = server_path
                 # URL and headers of request
-                url = f"{Credentials.STORAGE_URL}%2F{self.next_version_number}%2F{server_path.replace("/", "%2F") + '%2F' if server_path != '.' else ''}{firmware_name}?alt=media"
+                url = f"{self.storage}%2F{self.next_version_number}%2F{server_path.replace("/", "%2F") + '%2F' if server_path != '.' else ''}{firmware_name}?alt=media"
                 headers = {'Authorization': 'Bearer ' + self.token}
                 # Get Response
                 response = requests.get(url, stream=True, headers=headers)
