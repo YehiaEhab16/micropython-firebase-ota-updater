@@ -13,15 +13,23 @@ A secure **Over-The-Air (OTA)** firmware updater for MicroPython devices (ESP32/
 
 ## Setup Guide 🚀
 1. **Configure Firebase**:  
-   - Set up a Realtime Database and add your python files.
+   - Set up a Realtime Database and add your file structures.
      ```json
      {
-        "versions": {
-          "v1.1": {
-            
-          }
-        }
+      "v1_1": {
+           "*root*" : "main.py::test.py",
+           "lib"    : "sensor.py"
       }
+      }
+     ```
+   - Add files to Firebase Storage with the same architecture as described in database
+     ```
+      firmware_bucket/
+      ├── v1.1/
+      │   ├── main.py
+      │   ├── test.py
+      │   └── lib/
+      │       └── sensor.py
      ```
      
 
