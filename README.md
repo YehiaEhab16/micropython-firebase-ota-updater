@@ -17,7 +17,7 @@ A secure **Over-The-Air (OTA)** firmware updater for MicroPython devices (ESP32/
      ```json
      {
       "v1_1": {
-           "*root*" : "main.py::test.py",
+           "*root*" : "main.py;;test.py",
            "lib"    : "sensor.py"
       }
       }
