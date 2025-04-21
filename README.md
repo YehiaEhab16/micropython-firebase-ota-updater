@@ -12,7 +12,8 @@ A secure **Over-The-Air (OTA)** firmware updater for MicroPython devices (ESP32/
 - Supports any MicroPython-enabled device with WiFi  
 
 ## Setup Guide 🚀
-1. **Configure Firebase**:  
+1. **Configure Firebase**:
+   - Set up Firebase Authentication and add a user with email and password
    - Set up a Realtime Database and add your file structures.
      ```json
      {
@@ -22,7 +23,7 @@ A secure **Over-The-Air (OTA)** firmware updater for MicroPython devices (ESP32/
       }
       }
      ```
-   - Add files to Firebase Storage with the same architecture as described in database
+   - Set up Firebase Storage and add files with the same architecture as described in database
      ```
       firmware_bucket/
       ├── v1.1/
@@ -31,9 +32,8 @@ A secure **Over-The-Air (OTA)** firmware updater for MicroPython devices (ESP32/
       │   └── lib/
       │       └── sensor.py
      ```
-     
 
-2. **Flash the Bootloader**:  
+3. **Flash the Bootloader**:  
    - Add ota_updater.py to root directory on micropython device.
   
 ## Usage 📲
