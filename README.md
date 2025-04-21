@@ -1,6 +1,6 @@
 # MicroPython Firebase OTA Updater 🔄
 
-A secure **Over-The-Air (OTA)** firmware updater for MicroPython devices (ESP32/RP2040) using **Firebase Realtime Database**. Enables remote HEX file updates with fail-safe rollback.
+A secure **Over-The-Air (OTA)** firmware updater for MicroPython devices (ESP32/RP2040) using **Firebase Realtime Database**. Enables remote updates with fail-safe rollback.
 
 ## Key Features ✨
 - ♻️ **Fail-Safe Mechanism**: Automatic rollback on update failure  
